@@ -1,7 +1,7 @@
 /*
  * mergeSorted.cpp
  *
- * PROBLEM L4 -- void SList::mergeSorted(SList &other)
+ * PROBLEM L4 -- void SList::mergeSorted(SList &other)    -- SOLUTION
  *
  * PRECONDITION: `*this` and `other` are each sorted ascending.
  *
@@ -35,9 +35,84 @@
 
 #include "SList.h"
 
-#include <stdexcept>
-
+/*
+ * ---------------------------------------------------------------------------
+ * SOLUTION: dummy node + tail pointer
+ * ---------------------------------------------------------------------------
+ * This is the same two-finger merge as problem A3 -- but instead of
+ * COPYING values into a new array, we RE-LINK the existing nodes. No new
+ * nodes, no deleted nodes, O(1) extra space.
+ *
+ *   a    = next unused node of this list
+ *   b    = next unused node of other
+ *   tail = LAST node of the merged result so far (we append after it)
+ *
+ * The "dummy" is a fake node before the merged result, so tail always
+ * points at a real node and appending never needs an "is the result
+ * still empty?" special case. The real merged list starts at dummy.next.
+ *
+ * Trace: this = [1, 4],  other = [2, 3, 10]
+ *
+ *   dummy -> ?           a=[1] b=[2]   1 <= 2 -> take a
+ *   dummy -> 1           a=[4] b=[2]   4 >  2 -> take b
+ *   dummy -> 1 -> 2      a=[4] b=[3]   4 >  3 -> take b
+ *   dummy -> 1 -> 2 -> 3 a=[4] b=[10]  4 <= 10 -> take a
+ *   dummy -> 1 -> 2 -> 3 -> 4         a=null -> stop
+ *   attach the rest of b:  ... -> 4 -> 10
+ *   front = dummy.next = [1]
+ *
+ * STABILITY: on a tie we take from `a` (this list) first -- that's why
+ * the test is  a->data <= b->data  (not <).
+ *
+ * The dummy lives on the STACK (Node dummy(...), no `new`), so it is
+ * destroyed automatically when the function returns. Its constructor and
+ * destructor bump the live-node counter up then back down, so the leak
+ * checks balance. (If you `new` it, you'd have to `delete` it.)
+ *
+ * Alternative without a dummy: a pointer-to-pointer  Node **link = &front;
+ * then each step does  *link = chosen; link = &chosen->next;
+ * -- same idea as L3 version 3.
+ *
+ * Time O(n + m). Extra space O(1).
+ */
 void SList::mergeSorted(SList &other) {
-    // TODO: delete this line and implement mergeSorted
-    throw std::logic_error("TODO: implement SList::mergeSorted");
+    /* Merging a list with itself: the spec says do nothing. (Otherwise
+       a and b would walk the same nodes and we'd tangle the list.) */
+    if (&other == this) {
+        return;
+    }
+
+    Node dummy(0, nullptr);
+    Node *tail = &dummy;
+    Node *a = front;
+    Node *b = other.front;
+
+    while (a != nullptr && b != nullptr) {
+        if (a->data <= b->data) {      /* <= keeps it stable */
+            tail->next = a;
+            a = a->next;
+        } else {
+            tail->next = b;
+            b = b->next;
+        }
+        tail = tail->next;             /* the node we just attached */
+    }
+
+    /* One list ran out. The other's leftovers are already sorted and are
+       already linked together, so ONE pointer assignment attaches them
+       all -- no loop needed (unlike the array version in A3). */
+    if (a != nullptr) {
+        tail->next = a;
+    } else {
+        tail->next = b;
+    }
+
+    front = dummy.next;
+
+    /* Bookkeeping: we now own all the nodes, and `other` must be a valid
+       EMPTY list. If we left other.front pointing at its old first node,
+       BOTH lists would think they own it -> double delete later. */
+    numItems      += other.numItems;
+    other.front    = nullptr;
+    other.numItems = 0;
 }

@@ -93,6 +93,9 @@ private:
     std::vector<const Node *> walk() const;
 
     /* Add private helper declarations here. */
+
+    /* SOLUTION helper for problem L3, version 4 (recursive removeAll). */
+    Node *removeAllHelper(Node *curr, int value, int &count);
 };
 
 #endif

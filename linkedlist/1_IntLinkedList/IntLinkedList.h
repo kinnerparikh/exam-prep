@@ -123,6 +123,10 @@ private:
     int   numItems;
 
     /* Add private helper declarations here. */
+
+    /* SOLUTION helpers (see IntLinkedList.cpp). */
+    Node *nodeAt(int index) const;          /* requires 0 <= index < size */
+    void  insertBefore(Node *curr, int value);
 };
 
 #endif
