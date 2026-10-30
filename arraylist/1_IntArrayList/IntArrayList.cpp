@@ -49,7 +49,14 @@ std::string IntArrayList::toString() const {
 
 IntArrayList::IntArrayList(const int *arr, int length) {
     // Hint: allocate exactly `length` slots, then copy.
-    throw std::logic_error("TODO: implement IntArrayList(arr, length)");
+    data = new int[length]; //allocates length int for the array
+    //set numItems and cap to length
+    numItems = length;
+    cap = length;
+    //for each element in current area copy to new array
+    for (int i = 0; i < length; i++) {
+        data[i] = arr[i];
+    }
 }
 
 IntArrayList::IntArrayList(const IntArrayList &other) {
@@ -109,7 +116,9 @@ void IntArrayList::popFromFront() {
 }
 
 void IntArrayList::popFromBack() {
-    throw std::logic_error("TODO: implement popFromBack");
+    if (numItems > 0) {
+        numItems--;
+    }
 }
 
 void IntArrayList::removeAt(int index) {
