@@ -122,7 +122,15 @@ void IntArrayList::popFromBack() {
 }
 
 void IntArrayList::removeAt(int index) {
-    throw std::logic_error("TODO: implement removeAt");
+    //access a specific numItem in the array list
+    //overwrite specific numItem from array list, move elements after 1 over
+    //dont change everything before the specific numItem
+    for (int i = index; i < numItems - 1; i++) {
+        data[i] = data[i + 1];
+    }
+    //the index of the everything after the specific numItem decreases by 1
+    numItems--;
+
 }
 
 void IntArrayList::clear() {
