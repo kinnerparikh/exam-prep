@@ -82,10 +82,6 @@ private:
     int  front;
 
     void expand();
-
-    /* SOLUTION helper: converts a logical index (0 = first element of the
-       list) into the physical slot in `data`. Requires cap > 0. */
-    int  physicalIndex(int logicalIndex) const;
 };
 
 #endif

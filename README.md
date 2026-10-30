@@ -1,14 +1,5 @@
 # CS15 Exam Prep: ArrayLists & LinkedLists
 
-> **This is the SOLUTIONS branch (`kinner-branch`).** Every problem is solved
-> with detailed comments explaining the reasoning. To practice from blank
-> starter code, switch back with `git switch main`. Two files contain
-> several versions you can switch between with a `#define` near the top:
-> `arraylist/3_mergeFrom/mergeFrom.cpp` (`USE_IN_PLACE_MERGE`: 0 = new
-> array, 1 = in place from the back) and
-> `linkedlist/3_removeAll/removeAll.cpp` (`REMOVE_ALL_VERSION`: 1 = front
-> loop + look-ahead, 2 = dummy node, 3 = `Node **`, 4 = recursive).
-
 8 C++ practice problems: 4 on ArrayLists and 4 on LinkedLists. Each one has
 starter code and a test suite. Problems **A1** and **L1** have you build the
 data structure itself. The others are the "write one function" problems that
