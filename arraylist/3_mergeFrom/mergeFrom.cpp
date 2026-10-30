@@ -40,6 +40,36 @@
 #include <stdexcept>
 
 void NumList::mergeFrom(const NumList &other) {
-    // TODO: delete this line and implement mergeFrom
-    throw std::logic_error("TODO: implement NumList::mergeFrom");
+    if (other.numItems == 0) {
+        return;
+    }
+
+    int total = numItems + other.numItems;
+    int *merged = new int[total];
+
+    int i = 0;
+    int data_i = 0;
+    int other_i = 0;
+
+    while (data_i < numItems && other_i < other.numItems) {
+        if (data[data_i] <= other.data[other_i]) {
+            merged[i] = data[data_i++];
+        } else {
+            merged[i] = data[other_i++];
+        }
+    }
+    
+    while (data_i < numItems) {
+        merged[i++] = data[data_i++];
+    }
+
+    while (other_i < other.numItems) {
+        merged[i++] = other.data[other_i++];
+    }
+
+    numItems = other.numItems + numItems;
+    cap = numItems;
+    delete [] data;
+
+    data = merged;
 }
