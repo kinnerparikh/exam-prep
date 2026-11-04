@@ -1,15 +1,16 @@
-# CS15 Exam Prep: ArrayLists & LinkedLists
+# CS15 Exam Prep: ArrayLists, LinkedLists & Recursion
 
-8 C++ practice problems: 4 on ArrayLists and 4 on LinkedLists. Each one has
-starter code and a test suite. Problems **A1** and **L1** have you build the
-data structure itself. The others are the "write one function" problems that
-show up on exams.
+19 C++ practice problems: 4 on ArrayLists, 4 on LinkedLists, and
+[11 on recursion](recursion/README.md) (4 easy, 4 medium, 3 hard). Each one
+has starter code and a test suite. Problems **A1** and **L1** have you build
+the data structure itself. The others are the "write one function" problems
+that show up on exams.
 
 ```
 make al1          # build + test problem A1 (do this first!)
 ```
 
-## The problems
+## The data-structure problems
 
 | #  | Problem | You write code in | What it practices |
 |----|---------|-------------------|-------------------|
@@ -32,9 +33,25 @@ A1 and L1 come first because everything else builds on them. If you're short
 on time, prioritize L1, L2, L3, and A2, since those are the patterns exams
 love.
 
+## The recursion problems
+
+The [recursion problem set](recursion/README.md) covers array sums, digit
+counting, binary search, palindromes, fast powers, recursive selection sort,
+merge sort, stair climbing, subsets, permutations, and memoized edit distance.
+Each problem asks you to derive its recurrence, time complexity, and stack
+space; printing costs and repeated subproblems make the analyses varied.
+
+Start with `make rec1`, run a difficulty group with `make recursion-easy`,
+`make recursion-medium`, or `make recursion-hard`, or run all eleven with
+`make recursion`. They are independent of A1/L1 and each other. Complexity
+answers are separate and available only on `kinner-branch`, so the practice
+problem statements do not spoil them.
+
 ### Rules (like the exam)
 - Use raw arrays/nodes with `new`/`delete`. **No** `std::vector`, `std::list`,
   or other STL containers in your implementation.
+- Recursion exercises permit `std::string` and streams where specified;
+  follow each problem's rules for recursion, loops, buffers, and caching.
 - Implement the files in the "You write code in" column. You may add private
   helper declarations in the corresponding header, but keep public interfaces,
   data members, and node definitions unchanged. Don't edit tests, `testing/`,
@@ -80,12 +97,14 @@ your administrator password. Do not run this script with `sudo`.
 ## Running the tests
 
 ```
-make al1                          # build + run all tests for one problem (al1..al4, ll1..ll4)
+make al1                          # one problem (al1..al4, ll1..ll4, rec1..rec11)
 make al1 ARGS=insertAt            # only tests whose name contains "insertAt"
 make al1 ARGS="expand clear"      # several filters
 make arraylist                    # A1-A4, with a summary at the end
 make linkedlist                   # L1-L4
-make test                         # all 8, then a summary like:  al1  67/67 tests passed
+make recursion                    # R1-R11
+make recursion-easy               # R1-R4 (also recursion-medium / recursion-hard)
+make test                         # all 19, then a summary like:  al1  67/67 tests passed
 make clean
 ```
 
@@ -200,9 +219,14 @@ exam-prep/
 ├── arraylist/
 │   ├── common/NumList.{h,cpp}     # provided array-based list used by A2, A3
 │   ├── 1_IntArrayList/  2_removeAll/  3_mergeFrom/  4_CircularArrayList/
-└── linkedlist/
-    ├── common/SList.{h,cpp}       # provided singly linked list used by L2-L4
-    ├── 1_IntLinkedList/ 2_reverse/    3_removeAll/  4_mergeSorted/
+├── linkedlist/
+│   ├── common/SList.{h,cpp}       # provided singly linked list used by L2-L4
+│   ├── 1_IntLinkedList/ 2_reverse/    3_removeAll/  4_mergeSorted/
+└── recursion/
+    ├── README.md                 # 11 problems, difficulty levels, analysis worksheet
+    ├── 1_sumArray/ ... 4_isPalindrome/       # easy
+    ├── 5_fastPower/ ... 8_countStairs/       # medium
+    └── 9_printSubsets/ ... 11_editDistance/  # hard
 ```
 
 Requires a C++17 compiler and a POSIX environment (macOS or Linux).
